@@ -1,0 +1,311 @@
+int statusz[] = new int[8];
+int aktoszlop;
+int sor;
+
+int[,] tabla = new int[8,8];
+Point javaslat = new Point(0,0);
+Point aktkezd = new Point(0,0);
+int utolso = 0;
+int hanyadik = 0;
+
+public void elorelep()
+{
+    aktkezd.Y++;
+    if(aktkezd.Y == 8)
+    {
+        aktkezd.X++;
+        aktkezd.Y = 0;
+    }
+}
+
+public void oszloptorles(int k)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        tabla[k,i] = 0
+    }
+}
+
+public void listaba()
+{
+    int hossz = listBox1.Items.Count;
+    int egesz = hossz / 40;
+    int utolsok = hossz % 40;
+    List <string> maradek = new List <string> ();
+    for (int i = egesz * 40; i < hossz; i++)
+    {
+        maradek.Add(listBox1.Items[i].ToString());
+    }
+    listBox1.Items.Clear();
+    foreach (string x in maradek)
+    {
+        listBox1.Items.Add(x);
+    }
+}
+
+public void vissza()
+{
+    MessageBox.Show("vissza ");
+    int ii = 0;
+    while (statusz[ii] < 8)
+    {
+        i++;
+    }
+    utolso = ii - 1;
+    for (int j = utolso + 1; j < 8; j++)
+    {
+        statusz[j] = 8;
+        oszloptorles(j);
+    }
+    MessageBox.Show(utolso.ToString() + "utolsó 207");
+    statusz[utolso] = 8;
+    statuszki();
+    for (int i = 0; i < 8; i++)
+    {
+        tabla[utolso, i] = 0;
+    }
+    kiir();
+    statuszki();
+    MessageBox.Show("utolsó " +  utolso.ToString() + aktkezd.X.ToString() + aktkezd.Y.ToString() + "  226");
+    if (aktkezd.X == 8 && aktkezd.Y == 0)
+    {
+
+    }
+    hanyadik = statusz[utolso - 1];
+    statusz[utolso - 1] = 8;
+    tabla[utolso - 1, hanyadik] = 0;
+    hanyadik++;
+    aktkezd.X = utolso - 1;
+    aktkezd.Y = hanyadik;
+    if (aktkezd.Y == 8)
+    {
+        vissza();
+    }
+    MessageBox.Show("utolsó " +  utolso.ToString() + aktkezd.X.ToString() + aktkezd.Y.ToString() + "    227");
+    kiir();
+    statuszki();
+    listBox1.Items.Add(aktkezd.X.ToString() + aktkezd.Y.ToString());
+}
+
+private void statuszki()
+{
+    label2.Text = "";
+    for (int i = 0; i < statusz.Length; i++)
+    {
+        label2.Text += i.ToString() + " " + statusz[i].ToString() + '\n';
+    }
+}
+
+public void kezd()
+{
+    for (int i = 0; i < statusz.Length; i++)
+    {
+        statusz[i] = 8;
+    }
+    for (int i = 0; i < tabla.GetLength(0); i++)
+    {
+        for(int j = 0; l < tabla.GetLength(1); j++)
+        {
+            tabla[i, j] = 0;
+        }
+    }
+    statusz[0] = 8;
+    tabla[0, 0] = 0;
+    aktkezd.X = 0;
+    aktkezd.Y = 0;
+    label3.Text += aktkezd.X.ToString() + aktkezd.Y.ToString();
+    listaba();
+    listBox1.Items.Add(aktkezd.X.ToString() + aktkezd.Y.ToString());
+}
+
+bool joe1(Point javaslat)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        if (tabla[i, javaslat.Y] != 0)
+        {
+            MessageBox.Show("1");
+            return false;
+        }
+    }
+    for (int j = 0; j < 8; j++)
+    {
+        if (tabla[javaslat.X, j] != 0)
+        {
+            MessageBox.Show("2");
+            return false;
+        }
+    }
+    int mellek = javaslat.X + javaslat.Y;
+    for (int i = 0; i < tabla.GetLength(0); i++)
+    {
+        for (int j = 0; j < tabla.GetLength(1); j++)
+        {
+            if (((i + j) == mellek) && (tabla[i,j] != 0))
+            {
+                MessageBox.Show("3");
+                return false;
+            }
+        }
+    }
+    int fo = javaslat.X - javaslat.Y;
+    for (int i = 0; i < tabla.GetLength(0); i++)
+    {
+        for (int j = 0; j < tabla.GetLength(1); j++)
+        if (((i - j) == fo) && (tabla[i, j] != 0))
+        {
+            MessageBox.Show("4");
+            return false;
+        }
+    }
+    return true;
+}
+
+bool joe(Point javaslat)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        if (tabla[i, javaslat.Y] != 0)
+        {
+            return false;
+        }
+    }   
+    for (int j = 0; j < 8; j++)
+    {
+        if (tabla[javaslat.X, j] != 0)
+        {
+            return false;
+        }
+    }
+    int mellek = javaslat.X + javaslat.Y;
+
+    for (int i = 0; i < tabla.GetLength(0); i++)
+    {
+        for (int j = 0; j < tabla.GetLength(1); j++)
+        if (((i + j) == mellek) && (tabla[i,j] != 0))
+        {
+            return false;
+        }
+    }
+    int fo = javaslat.X - javaslat.Y;
+    for (int i = 0; i < tabla.GetLength(0); i++)
+    {
+        for (int j = 0; j < tabla.GetLength(1); j++)
+        {
+            if (((i - j) == fo) && (tabla[i,j] != 0))
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+public Point leptetes(Point aktkezd)
+{
+    Point vissz = new Point();
+    javaslat.X = aktkezd.X;
+    javaslat.Y = aktkezd.Y;
+    int hely = aktkezd.Y;
+    while((!joe(javaslat))&&(javaslat.X < 8))
+    {
+        if (hely < 7)
+        {
+            hely++;
+            javaslat.Y = hely;
+            label3.Text += javaslat.X.ToString() + hely.ToString() + '\n';
+        }
+        else
+        {
+            javaslat.X++;
+            hely = 0;
+            javaslat.Y = hely;
+            vissz.X = javaslat.X;
+            vissz.Y = hely;
+
+            if (javaslat.X < 8)
+            {}
+            else
+            {
+                vissz.X = 8;
+                vissz.Y = 0;
+                return vissz;
+            }
+        }
+    }
+    if (javaslat.X < 8)
+    {
+        statusz[javaslat.X] = javaslat.Y;
+        tabla[javaslat.X, hely] = 1;
+        aktkezd.X++;
+        aktkezd.Y = 0;
+        label3.Text += (aktkezd.X.ToString() + aktkezd.Y.ToString() + "tábla beírás után");
+    }
+    kiir();
+    statuszki();
+    return new Point (aktkezd.X, aktkezd.Y);
+}
+
+public void kiir()
+{
+    label1.Text = "";
+    for (int i = 0; i < tabla.GetLength(0); i++)
+    {
+        for (int j = 0; j < tabla.GetLength(1); j++)
+        {
+            int a = tabla[j,i];
+            label1.Text += a.ToString() + " ";
+        }
+        label1.Text += '\n';
+    }
+}
+
+private void button1_Click(object sender, EventArgs e)
+{
+    kezd();
+    tabla[0,0] = 0; 
+    statusz[0] = 8;
+    javaslat.X = 0; 
+    javaslat.Y = 0;
+    aktkezd.X = 0; 
+    aktkezd.Y = 0;
+    listBox1.Items.Clear();
+
+    for (int i = 0; i < 700; i++)
+    {
+        if (i > 550)
+        {
+            MessageBox.Show(aktkezd.X.ToString() + aktkezd.Y.ToString() + "be   " + utolso.ToString();)
+        }
+        kiir();
+        statuszki();
+        if (joe(aktkezd))
+        {
+            tabla[aktkezd.X, aktkezd.Y] = 1;
+            statusz[aktkezd.X] = aktkezd.Y;
+            kiir();
+            statuszki();
+            listaba();
+            listBox1.Items.Add(aktkezd.X.ToString() + aktkezd.Y.ToString() + "jo    " + i.ToString());
+            elorelep();
+        }
+        else
+        {
+            if (i > 550)
+            {
+                MessageBox.Show(aktkezd.X.ToString() + aktkezd.Y.ToString() + "nem jó   " + i.ToString());
+                label3.Text += aktkezd.X.ToString() + aktkezd.Y.ToString() + "  be    " + i.ToString() + '\n';
+            }
+            elorelep();
+            listBox1.Items.Add(aktkezd.X.ToString() + aktkezd.Y.ToString());
+            if (aktkezd.X == 8 && aktkezd.Y == 0)
+            {
+                kiir();
+                statuszki();
+                listaba();
+                listBox1.Items.Add("visszafgv   " + aktkezd.X.ToString() + aktkezd.Y.ToString());
+                vissza();
+            }
+        }
+    }
+}
